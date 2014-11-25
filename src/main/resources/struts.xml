@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.convention.default.parent.package"
+		value="crud-default" />
+	<!-- 配置控制器所在文件夹 -->
+	<constant name="struts.convention.package.locators" value="controller" />
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.custom.i18n.resources" value="messages" />
+	<!-- 扫描jar包中的控制器 -->
+	<constant name="struts.convention.action.includeJars" value=".*?/_wl_cls_gen.*?jar(!/)?" />
+	<!-- struts2 jsp映射路径 -->
+    <constant name="struts.convention.result.path" value="/WEB-INF/content/" />
+    <!-- 开启动态方法调用即使用!掉用控制器中的方法 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <!-- 限制文件上传大小 --> 
+    <constant name="struts.multipart.maxSize" value="102400000"/>
+
+    <!-- 开发环境配置 -->
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.convention.classes.reload" value="true" />
+    <!-- 开发环境配置 -->
+
+	<package name="crud-default" extends="convention-default,json-default">
+	    <!-- 配置权限拦截器 -->
+	    <interceptors>
+	        <interceptor name="authority" class="org.sagacity.sshbase.interceptor.AuthorityInteceptor"></interceptor>
+	        <interceptor-stack name="mydefault">
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	            <interceptor-ref name="authority"></interceptor-ref>
+	        </interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="mydefault"></default-interceptor-ref>
+		<!-- end 配置权限拦截器 -->
+		
+		<global-results>
+			<result name="error">/error.jsp</result>
+			<result name="login">/sessioninvalid.jsp</result>
+		</global-results>
+	</package>
+</struts>
